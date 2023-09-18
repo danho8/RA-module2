@@ -1,34 +1,28 @@
-function isValid(s: string): boolean {
-    const stack: string[] = [];
-    const map: { [key: string]: string } = {
-      '(': ')',
-      '[': ']',
-      '}': '}'
-    };
-  
-    for (let i = 0; i < s.length; i++) {
-      const char = s[i];
-  
-      // Nếu là một dấu mở ngoặc, thêm vào stack
-      if (map[char]) {
-        stack.push(char);
-      } else {
-        // Nếu là một dấu đóng ngoặc
-        // Kiểm tra stack có phần tử không
-        // và xác định xem dấu đóng ngoặc này có phù hợp với dấu mở ngoặc cuối cùng hay không
-        if (stack.length === 0) {
-          return false; // Không hợp lệ nếu stack trống
-        }
-  
-        const lastOpenBracket = stack.pop();
-        if (map[lastOpenBracket] !== char) {
-          return false; // Không hợp lệ nếu không phù hợp
-        }
-      }
-    }
-  
-    // Nếu stack còn phần tử, tức là còn dấu mở ngoặc chưa được đóng
-    return stack.length === 0;
-  }
+// Cho một chuỗi s chỉ chứa các ký tự '(', ')', '{', '}', '[', ']', viết một hàm xác định xem chuỗi đầu vào s có hợp lệ hay không.
 
-    console.log(isValid('()')); // true
+// Một chuỗi đầu vào s được coi là hợp lệ nếu:
+
+// Dấu mở ngoặc phải được đóng phải cùng một loại ngoặc.
+
+// Dấu mở ngoặc phải được đóng theo thứ tự chính xác.
+
+function isValid(s: string): boolean {
+    let stack: string[] = [];
+    let onj: {[key: string]: string} = {
+        '(': ')', // tạo một object với key là dấu mở ngoặc và value là dấu đóng ngoặc
+        '[': ']',
+        '{': '}'
+    }
+    for (let i = 0; i < s.length; i++) { // lăp qua từng phần tử của chuỗi s
+        if (onj[s[i]]) {  // nếu phần tử đó là dấu mở ngoặc thì push vào stack với mục đích so sánh với dấu đóng ngoặc
+            stack.push(onj[s[i]]);
+        } else { // nếu phần tử đó là dấu đóng ngoặc thì so sánh với phần tử cuối cùng của stack
+            if (s[i] !== stack.pop()) { // nếu không giống thì return false
+                return false; 
+            }
+        }
+    }
+    return stack.length === 0;
+}
+
+console.log("=>>>",isValid('{()}')); // true
