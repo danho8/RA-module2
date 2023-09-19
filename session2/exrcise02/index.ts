@@ -21,6 +21,7 @@ function isValid(s: string): boolean {
                 return false; 
             }
         }
+     console.log(stack)   
     }
     return stack.length === 0;
 }
